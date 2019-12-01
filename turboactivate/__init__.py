@@ -288,7 +288,12 @@ class TurboActivate(object):
                                   grace_days_on_inet_err)
 
         ret = self._lib.TA_IsGenuineEx(self._handle, pointer(options))
-
+        
+        try:
+            print('Result from the TA_IsGenuineEx is ', str(ret))
+        except:
+            print('Could not capture the result from TA_IsGenuineEx')
+            
         if ret == TA_OK:
             return IsGenuineResult.Genuine
         elif ret in {TA_FAIL, TA_E_REVOKED, TA_E_ACTIVATE}:
