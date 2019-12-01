@@ -255,15 +255,15 @@ class TurboActivate(object):
         ret = self._lib.TA_IsGenuine(self._handle)
 
         if ret == TA_OK:
-            return IsGenuineResult.Genuine
+            return IsGenuineResult.Genuine, ret
         elif ret in {TA_FAIL, TA_E_REVOKED, TA_E_ACTIVATE}:
-            return IsGenuineResult.NotGenuine
+            return IsGenuineResult.NotGenuine, ret
         elif ret == TA_E_INET:
-            return IsGenuineResult.InternetError
+            return IsGenuineResult.InternetError, ret
         elif ret == TA_E_IN_VM:
-            return IsGenuineResult.NotGenuineInVM
+            return IsGenuineResult.NotGenuineInVM, ret
         elif ret == TA_E_FEATURES_CHANGED:
-            return IsGenuineResult.GenuineFeaturesChanged
+            return IsGenuineResult.GenuineFeaturesChanged, ret
 
         validate_result(ret)
 
@@ -289,21 +289,17 @@ class TurboActivate(object):
 
         ret = self._lib.TA_IsGenuineEx(self._handle, pointer(options))
         
-        try:
-            print('Result from the TA_IsGenuineEx is ', str(ret))
-        except:
-            print('Could not capture the result from TA_IsGenuineEx')
             
         if ret == TA_OK:
-            return IsGenuineResult.Genuine
+            return IsGenuineResult.Genuine, ret
         elif ret in {TA_FAIL, TA_E_REVOKED, TA_E_ACTIVATE}:
-            return IsGenuineResult.NotGenuine
+            return IsGenuineResult.NotGenuine, ret
         elif ret in {TA_E_INET, TA_E_INET_DELAYED}:
-            return IsGenuineResult.InternetError
+            return IsGenuineResult.InternetError, ret
         elif ret == TA_E_IN_VM:
-            return IsGenuineResult.NotGenuineInVM
+            return IsGenuineResult.NotGenuineInVM, ret
         elif ret == TA_E_FEATURES_CHANGED:
-            return IsGenuineResult.GenuineFeaturesChanged
+            return IsGenuineResult.GenuineFeaturesChanged, ret
 
         validate_result(ret)
 
